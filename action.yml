@@ -1,0 +1,24 @@
+name: 'Update BOJ Performance in Markdown'
+description: 'Update performance details in changed markdown files'
+inputs:
+  path:
+    description: 'Path to the changed markdown files'
+    required: true
+  user_id:
+    description: 'BOJ user ID'
+    required: true
+  language_id:
+    description: 'Language ID'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        cd ${{ github.action_path }}
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      shell: bash
+    - run: |
+        cd ${{ github.action_path }}
+        python main.py ${{ github.workspace }}/${{ inputs.path }} ${{ inputs.user_id }} ${{ inputs.language_id }}
+      shell: bash

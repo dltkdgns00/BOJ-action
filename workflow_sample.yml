@@ -1,0 +1,50 @@
+name: Update Markdown Performance
+
+on:
+  push:
+    paths:
+    - '**.md'
+    actors:
+    - 'dltkdgns00'
+
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GH_TOKEN }}
+
+    - name: Get List of Not Filled Markdown Files
+      id: getfile
+      run: |
+        echo "" > not_filled_files.txt
+
+        while IFS= read -r -d $'\0' file; do
+            if ! grep -q "### 성능 요약" "$file"; then
+                echo "$file" >> not_filled_files.txt
+            fi
+        done < <(find . -name "*.md" -print0)
+
+    - name: Update Performance in Markdown
+      uses: dltkdgns00/BOJ-action@main
+      with:
+        path: not_filled_files.txt
+        user_id: dltkdgns00
+        language_id: 1001
+    
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add .
+        git status
+        if [[ -n "$(git status --porcelain)" ]]; then
+          git commit -m "Update performance details"
+          git push
+        else
+          echo "No changes to commit."
+        fi
