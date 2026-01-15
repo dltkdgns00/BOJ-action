@@ -1,18 +1,18 @@
-name: 'Update BOJ Performance in Markdown'
-description: 'Update performance details in changed markdown files'
+name: "Update BOJ Performance in Markdown"
+description: "Update performance details in changed markdown files"
 inputs:
   path:
-    description: 'Path to the changed markdown files'
+    description: "Path to the changed markdown files"
     required: true
   user_id:
-    description: 'BOJ user ID'
+    description: "BOJ user ID"
     required: true
   language_id:
-    description: 'Language ID'
+    description: "Language ID"
     required: false
-    default: ''
+    default: ""
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - run: |
         cd ${{ github.action_path }}
