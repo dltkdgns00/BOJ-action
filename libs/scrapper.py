@@ -4,7 +4,10 @@ from bs4 import BeautifulSoup
 
 def fetch_code_performance(problem_id, user_id, language_id):
     try:
-        url = f"https://www.acmicpc.net/status?problem_id={problem_id}&user_id={user_id}&language_id={language_id}&result_id=4"
+        url = f"https://www.acmicpc.net/status?problem_id={problem_id}&user_id={user_id}&result_id=4"
+        if language_id:
+             url += f"&language_id={language_id}"
+        
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
